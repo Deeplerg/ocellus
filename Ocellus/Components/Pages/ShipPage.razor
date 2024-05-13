@@ -1,0 +1,251 @@
+﻿@page "/ships/{ShipName}"
+@using Microsoft.Extensions.Options
+@using Ocellus.Core.Models
+@using Ocellus.Models
+@using Ocellus.View
+@inject IOptions<ShipOptions> ShipOptions
+@inject NavigationManager Navigation
+
+<main>
+    <section class="section">
+        <h1 class="title is-1 has-text-centered">
+            @Ship.Properties.Name
+            @* <a href=@Navigation.Uri> *@
+            <a href=@ShipCardModel.Url>
+                <img class="link-icon" src="link.svg" alt="link"/>
+            </a>
+        </h1>
+
+        <figure class="block image is-4by3 ship-image mx-auto">
+            <img src=@ShipCardModel.ImageFilePath alt="@ShipCardModel.Ship.Properties.Name">
+        </figure>
+        
+        <p class="block has-text-centered is-size-5">The <strong>@Ship.Properties.Name</strong>
+            is a <strong>@ShipHelper.ClassToSize(Ship.Properties.Class)</strong> class ship
+            made by <strong>@Ship.Properties.Manufacturer </strong>
+            that is commonly sold at <strong>@NumberHelper.SeparateNumberByThousands(Ship.RetailCost) CR.</strong>
+            The ship can have up to <strong>@Ship.Properties.Crew</strong> crew members.</p>
+
+        <div class="block is-flex is-justify-content-space-evenly is-flex-wrap-wrap">
+            <div class="box">
+                <h3 class="block is-size-4">Basic stats</h3>
+                <table class="table is-bordered mx-auto">
+                    <tbody>
+                    <tr>
+                        <th>
+                            Base Armour
+                        </th>
+                        <th>
+                            @Ship.Properties.BaseArmour
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Hardness
+                        </th>
+                        <th>
+                            @Ship.Properties.Hardness
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Base Shield Strength
+                        </th>
+                        <th>
+                            @Ship.Properties.BaseShieldStrength
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Masslock
+                        </th>
+                        <th>
+                            @Ship.Properties.Masslock
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Heat Capacity
+                        </th>
+                        <th>
+                            @Ship.Properties.HeatCapacity
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box">
+                <h3 class="block is-size-4">Core internal module sizes</h3>
+                <table class="table is-bordered mx-auto">
+                    <tbody>
+                    @if (Ship.Slots.Standard.Length != 7)
+                    {
+                        <tr>
+                            <th class="is-danger">Something went wrong...</th>
+                        </tr>
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Ship.Slots.Standard.Length; i++)
+                        {
+                            <tr>
+                                <th>
+                                    @(ShipHelper.CoreModuleIdToName(i))
+                                </th>
+                                <th>
+                                    @(Ship.Slots.Standard[i])
+                                </th>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box">
+                <h3 class="block is-size-4">Hardpoint sizes</h3>
+                <table class="table is-bordered mx-auto block">
+                    <tbody>
+                    @foreach (int size in Ship.Slots.Hardpoints)
+                    {
+                        if (size == 0) continue;
+                        <tr>
+                            <th>
+                                @size
+                            </th>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+                <div class="block is-size-4 has-text-centered">
+                    Utility slots: @Ship.Slots.Hardpoints.Count(x => x == 0)
+                </div>
+            </div>
+            <div class="box">
+                <h3 class="block is-size-4">Available bulkheads</h3>
+                <table class="table is-bordered mx-auto">
+                    <thead>
+                    <tr>
+                        <th>
+                            Cost
+                        </th>
+                        <th>
+                            Mass
+                        </th>
+                        <th>
+                            Caustic Resistance
+                        </th>
+                        <th>
+                            Explosive Resistance
+                        </th>
+                        <th>
+                            Kinetic Resistance
+                        </th>
+                        <th>
+                            Thermal Resistance
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var bulkhead in Ship.Bulkheads)
+                    {
+                        <tr>
+                            <th>
+                                @NumberHelper.SeparateNumberByThousands(bulkhead.Cost) CR
+                                @if (bulkhead.Cost == 0)
+                                {
+                                    <span> (Default)</span>
+                                }
+                            </th>
+                            <th>
+                                @(bulkhead.Mass)T
+                            </th>
+                            <th>
+                                @(bulkhead.CausticResistance * 100)%
+                            </th>
+                            <th>
+                                @(bulkhead.ExplosiveResistance * 100)%
+                            </th>
+                            <th>
+                                @(bulkhead.KineticResistance * 100)%
+                            </th>
+                            <th>
+                                @(bulkhead.ThermalResistance * 100)%
+                            </th>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box">
+                <h3 class="block is-size-4">Maneuverability</h3>
+                <table class="table is-bordered mx-auto block">
+                    <tbody>
+                    <tr>
+                        <th>
+                            Speed
+                        </th>
+                        <th>
+                            @Ship.Properties.Speed m/s
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Speed (+Boost)
+                        </th>
+                        <th>
+                            @Ship.Properties.Boost m/s
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Pitch Rate
+                        </th>
+                        <th>
+                            @Ship.Properties.Pitch°/s
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Roll Rate
+                        </th>
+                        <th>
+                            @Ship.Properties.Roll°/s
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Yaw Rate
+                        </th>
+                        <th>
+                            @Ship.Properties.Yaw°/s
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+@code {
+    [Parameter] public string ShipName { get; set; } = string.Empty;
+    
+    private Ship? Ship;
+    private ShipCardModel ShipCardModel;
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var ships = ShipOptions.Value.Ships;
+        Ship = ships.FirstOrDefault(ship => ship.Properties.Name.ToKebabCase() == ShipName);
+
+        if (Ship is null)
+        {
+            Navigation.NavigateTo("/not-found");
+            return;
+        }
+
+        ShipCardModel = ShipCardModel.FromShip(Ship);
+    }
+}

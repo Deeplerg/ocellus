@@ -1,0 +1,45 @@
+﻿@inherits LayoutComponentBase
+
+<header class="navbar subtitle" xmlns="http://www.w3.org/1999/html">
+    <div class="navbar-brand">
+        <a href="/" class="navbar-item is-size-5">
+            <img src="Ocellus.svg" alt="Ocellus icon"/>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/">
+                Home
+            </a>
+        </div>
+    </div>
+</header>
+
+@Body
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>Ocellus - @(DateTime.Now.Year). </strong>
+        </p>
+        <div class="is-flex is-justify-content-space-evenly">
+            <div class="has-text-left">
+                <strong>Credit:</strong>
+                <ul>
+                    <li>
+                        <a href="https://coriolis.io">coriolis.io</a> for the idea
+                    </li>
+                    <li>
+                        <a href="https://github.com/EDCD/coriolis-data">coriolis-data on GitHub</a> for ship data
+                    </li>
+                    <li>
+                        <a href="https://bulma.io">bulma.io</a> the CSS framework
+                    </li>
+                    <li>
+                        <a href="https://dot.net">.NET ❤️</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

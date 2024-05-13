@@ -1,0 +1,27 @@
+﻿@using Ocellus.View
+
+<div class="card ship-card">
+    <div class="card-image">
+        <figure class="image is-4by3">
+            <img src=@ShipCardModel.ImageFilePath alt="@ShipCardModel.Ship.Properties.Name">
+        </figure>
+    </div>
+    <div class="card-content">
+        <div class="content">
+            <p class="title is-4">
+                <a href=@ShipCardModel.Url> 
+                    @ShipCardModel.Ship.Properties.Name
+                </a>
+            </p>
+                
+            <strong>Size:</strong> @ShipHelper.ClassToSize(ShipCardModel.Ship.Properties.Class) <br/>
+            <strong>Manufacturer:</strong> @ShipCardModel.Ship.Properties.Manufacturer <br/>
+            <strong>Cost:</strong> @NumberHelper.SeparateNumberByThousands(ShipCardModel.Ship.RetailCost) CR<br/>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ShipCardModel ShipCardModel { get; set; }
+}

@@ -1,0 +1,36 @@
+﻿@page "/"
+@using Microsoft.Extensions.Options
+@using Ocellus.Models
+@using Ocellus.View
+@inject IOptions<ShipOptions> ShipOptions
+
+<main>
+    <section class="level">
+        <h1 class="title is-1 level-item has-text-centered">
+            <img src="Ocellus.svg" alt="Ocellus logo" class="logo-title mx-2"/>
+            Ocellus - a mini-wiki for Elite: Dangerous
+        </h1>
+    </section>
+    
+    <section class="section is-flex is-justify-content-space-evenly is-flex-wrap-wrap">
+        @foreach (var ship in ShipCardModels)
+        {
+            <ShipCard ShipCardModel=@ship/>
+        }
+    </section>
+</main>
+
+@code {
+    private readonly List<ShipCardModel> ShipCardModels = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var ships = ShipOptions.Value.Ships;
+        foreach(var ship in ships)
+        {
+            ShipCardModels.Add(ShipCardModel.FromShip(ship));
+        }
+    }
+}
