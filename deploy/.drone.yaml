@@ -277,7 +277,7 @@ trigger:
 volumes:
   - name: warmer-cache
     claim:
-      name: drone-kaniko-warmer-pvc
+      name: kaniko-warmer-pvc
 
 
 ---
