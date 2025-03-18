@@ -22,7 +22,7 @@ steps:
       - TAG=prod-$COMMIT
       - FULL_IMAGE_NAME=$REGISTRY/ocellus:$TAG
 
-      - AUTH=$(echo -n $USERNAME:$PASSWORD | base64)
+      - AUTH=$(echo -n $USERNAME:$PASSWORD | base64 -w 0)
 
       - |
         JSON="{ \"auths\": { \"$REGISTRY\": { \"auth\": \"$AUTH\" } } }"
@@ -121,7 +121,7 @@ steps:
       - TAG=$BRANCH-$COMMIT
       - FULL_IMAGE_NAME=$REGISTRY/ocellus:$TAG
 
-      - AUTH=$(echo -n $USERNAME:$PASSWORD | base64)
+      - AUTH=$(echo -n $USERNAME:$PASSWORD | base64 -w 0)
 
       - |
         JSON="{ \"auths\": { \"$REGISTRY\": { \"auth\": \"$AUTH\" } } }"
